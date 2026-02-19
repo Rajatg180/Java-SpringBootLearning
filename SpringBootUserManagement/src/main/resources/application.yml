@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/usermgmtSpringBoot
+    username: postgres
+    password: Rajat@1803
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically update the database schema based on entity changes (we can change this to 'validate' or 'none' in production)
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      
+
+app:
+  jwt:
+    secret: "7f9a3d4e8b1c6a0f9e2d4c7b8a5e3f1d9c0b6a2e8f7d5c4b3a1e9"
+    expiration-ms: 3600000 
+

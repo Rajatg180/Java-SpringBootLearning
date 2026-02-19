@@ -1,0 +1,87 @@
+
+# default configuration for all profile, you can override it in specific profile configuration if you want
+spring:
+  application:
+    name: SpringBootEcommerceBackend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce_DB_springboot
+    username: postgres
+    password: Rajat@1803
+
+  jpa:
+    hibernate:
+      ddl-auto: validate # we are doing validate bacuse we are going to do migration using flyway
+    show-sql: true
+    properties:   
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration # this is the default location for flyway migration scripts, you can change it if you want
+
+server:
+  port: 8080
+
+
+# this for different profile, you can use it for different environment like dev, prod , test etc.
+# --- is used to separate different profile configuration in the same file, you can also use different file for different profile like application-dev.yaml, application-prod.yaml etc. but here we are using same file for all profile and separating them using --- 
+# if any of the property is not found in specific profile configuration then it will take the value from default configuration, if it is not found in default configuration then it will throw error, so make sure to provide all the required properties in default configuration or in specific profile configuration.
+
+# dev prfoile configuration 
+--- 
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  application:
+    name: SpringBootEcommerceBackend-Dev
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/dev 
+
+server:
+  port: 8081
+
+
+# prod prfoile configuration
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  application:
+    name: SpringBootEcommerceBackend-Prod
+  
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/prod
+  
+server:
+  port: 8082
+
+
+# test prfoile configuration
+--- 
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  application:
+    name: SpringBootEcommerceBackend-Test
+  
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/test
+
+server:
+  port: 8083
+
+
+
+  

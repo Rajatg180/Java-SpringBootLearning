@@ -1,0 +1,48 @@
+
+
+# default profile condiguratoion
+spring:
+  application:
+    name: ProfileExample
+  
+  # 1 way to set active profile
+  # profiles:
+  #    active: prod
+
+server:
+  port: 8086
+
+
+app:
+  message: "Hello from the default profile!"
+  
+
+# development profile configuration
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+
+server:
+  port: 8081
+
+app:
+  message: "Hello from the development profile!"
+
+
+
+# production profile configuration
+--- 
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+server:
+  port: 8082
+
+# here we dont have message property, so it will fallback to default profile message 
+# app:
+#   message: "Hello from the production profile!"

@@ -1,0 +1,67 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--   the default scope is singleton means it will create the same object every time when we do getBean -->
+<!--    but when we set scope = prototype it will create different object when we do getBean-->
+<!--    <bean id="alien" class = "org.example.Alien" scope="prototype">-->
+<!--    </bean>-->
+
+<!--    Singleton scope -->
+<!--    autowire will wire property with object byName-->
+<!--    byType will wire by type -->
+    <bean id="alien" class = "org.example.Alien" autowire="byName">
+<!--     Injecting default value to property of class  -->
+<!--     the value to that property is sett using setter method-->
+<!--     this is called setter injection because it is calling setter method to set value  -->
+<!--     primitive data type -->
+        <property name="age" value="21"/>
+
+<!--     assigning default value to non primitive data type ( reference variable)  -->
+<!--      use ref attribute and assign Laptop bean id to it (ie laptop)  -->
+<!--        <property name="com" ref="laptop"/>-->
+
+<!--        even if we don't write below  code it will auto wire  as property  name and ben id is same-->
+<!--        if we explicitly mention ur reference auto wire will not work-->
+<!--        here we are assigning object of Computer -->
+<!--        <property name="com" ref="com"/>-->
+
+
+<!--        assign values to properties  with help of constructor -->
+<!--        if nothing is specified like type , index , name anything it will go with order in which it is written-->
+<!--        <constructor-arg type="int" value="21" index="0" />-->
+<!--        <constructor-arg type="int" value="500000" index="2" name="salary" />-->
+<!--        <constructor-arg type="org.example.Laptop" ref="com" index="1"/>-->
+        
+        
+<!--        Inner Bean (means) , means Laptop bean restrict to Alien bean only , no other bean can refer this  -->
+        <property name="com">
+            <bean id="laptop" class = "org.example.Laptop" primary="true">
+            </bean>
+        </property>
+
+    </bean>
+
+    <!-- if we mention two beans with different ids it will create two objects    -->
+<!--    <bean id="alien1" class = "org.example.Alien">-->
+<!--    </bean>-->
+
+<!-- primary is used when we do wiring by Type now below both beans are of Desktop type so will auto wiring it will pick Laptop bean as we have set it to primary = true-->
+    <bean id="laptop" class = "org.example.Laptop" primary="true">
+    </bean>
+
+<!--    to check auto wiring-->
+<!--    lazy-init will only create the object when we need it , it will now not be created during config -->
+<!--    when non-lazy (Alien cass )  object dependent on lazy object still it will create object -->
+    <bean id="com" class = "org.example.Desktop" lazy-init="true">
+    </bean>
+
+<!--    if we didn't mention id then we need to acces bean using type -->
+<!--    <bean class = "org.example.Desktop" lazy-init="true">-->
+<!--    </bean>-->
+
+
+</beans>
+
