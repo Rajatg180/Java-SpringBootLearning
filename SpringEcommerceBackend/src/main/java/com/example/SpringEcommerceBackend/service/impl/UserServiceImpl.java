@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        user.setRole(Role.ADMIN); // for testing 
+        user.setRole(Role.CUSTOMER); // for testing 
 
         User savedUser = userRepository.save(user);
 
@@ -51,21 +51,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-public AuthResponse login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
 
-    User user = userRepository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-        throw new RuntimeException("Invalid credentials");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        String token = jwtService.generateToken(user.getEmail());
+
+        return AuthResponse.builder()
+                .token(token)
+                .build();
     }
-
-    String token = jwtService.generateToken(user.getEmail());
-
-    return AuthResponse.builder()
-            .token(token)
-            .build();
-}
 
    
 }
