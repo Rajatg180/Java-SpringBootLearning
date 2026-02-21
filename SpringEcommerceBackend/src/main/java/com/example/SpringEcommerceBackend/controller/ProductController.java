@@ -18,14 +18,14 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // 🔹 ADMIN ONLY
+    // ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/admin/products")
     public ProductResponse create(@Valid @RequestBody ProductRequest request) {
         return productService.create(request);
     }
 
-    // 🔹 PUBLIC — Pagination + Sorting
+    // PUBLIC — Pagination + Sorting
     @GetMapping("/api/products")
     public Page<ProductResponse> getAll(
             @RequestParam(defaultValue = "0") int page,
@@ -36,7 +36,7 @@ public class ProductController {
         return productService.getAll(page, size, sortBy, direction);
     }
 
-    // 🔹 SEARCH
+    // SEARCH
     @GetMapping("/api/products/search")
     public Page<ProductResponse> search(
             @RequestParam String name,
@@ -46,7 +46,7 @@ public class ProductController {
         return productService.searchByName(name, page, size);
     }
 
-    // 🔹 FILTER PRICE
+    // FILTER PRICE
     @GetMapping("/api/products/filter-price")
     public Page<ProductResponse> filterByPrice(
             @RequestParam BigDecimal min,
@@ -57,7 +57,6 @@ public class ProductController {
         return productService.filterByPrice(min, max, page, size);
     }
 
-    // 🔹 FILTER CATEGORY
     @GetMapping("/api/products/filter-category")
     public Page<ProductResponse> filterByCategory(
             @RequestParam UUID categoryId,
